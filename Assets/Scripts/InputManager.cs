@@ -39,6 +39,5 @@ public class InputManager : MonoBehaviour
     private void AttackInput()
     {
         attack = Input.GetKeyDown(KeyCode.J);
-        if(attack) { horizontal = 0; }
     }
 }

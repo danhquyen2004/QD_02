@@ -6,10 +6,10 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] protected float speed;
     [SerializeField] protected float jumpForce;
-    [SerializeField] private GameObject pointGroundCheck;
-    [SerializeField] private GameObject pointWallCheck;
-    [SerializeField] private Vector2 sizeBoxCheckGround;
-    [SerializeField] private Vector2 sizeBoxCheckWall;
+    [SerializeField] protected GameObject pointGroundCheck;
+    [SerializeField] protected GameObject pointWallCheck;
+    [SerializeField] protected Vector2 sizeBoxCheckGround;
+    [SerializeField] protected Vector2 sizeBoxCheckWall;
     private void Reset()
     {
         Load();
@@ -25,22 +25,24 @@ public class PlayerMovement : MonoBehaviour
         speed = 6f;
         jumpForce = 700f;
         sizeBoxCheckGround = new Vector2(0.9f, 0.4f);
+        sizeBoxCheckWall = new Vector2(1.5f, 1.3f);
     }
     void Update()
     {
-        Move(InputManager.Instance.Horizontal);
+        if(!PlayerManager.Instance.attack.attacking)
+            Move(InputManager.Instance.Horizontal);
         Jump();
     }
 
     private void Move(float direction)
     {
-        if(direction != 0) PlayerManager.Instance.model.Play("Run");
-        else PlayerManager.Instance.model.Play("Idle");
+        if (direction < 0)
+            transform.parent.localScale = new Vector3(-1,1,1);
+        if (direction > 0)
+            transform.parent.localScale = new Vector3(1, 1, 1);
 
         Vector2 velocity = transform.parent.GetComponent<Rigidbody2D>().velocity;
         transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * speed,velocity.y);
-        
-
     }
     private void Jump()
     {
@@ -70,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         }
         return false;
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(pointGroundCheck.transform.position, sizeBoxCheckGround);
