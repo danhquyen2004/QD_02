@@ -31,6 +31,42 @@ public class PlayerVisual : MonoBehaviour
     }
     public void Attack1Event()
     {
+        if (PlayerManager.Instance.attack.Attack1())
+        {
+            if(InputManager.Instance.Horizontal==0)
+                animator.SetFloat("AttackState", 1);
+            else
+            {
+                animator.SetFloat("AttackState", 1);
+                PlayerManager.Instance.attack.attacking = false;
+            }
+        }
+        else
+            PlayerManager.Instance.attack.attacking = false;
+    }
+    public void Attack2Event()
+    {
+        if (PlayerManager.Instance.attack.Attack2())
+        {
+            if (InputManager.Instance.Horizontal == 0)
+                animator.SetFloat("AttackState", 2);
+            else
+            {
+                animator.SetFloat("AttackState", 2);
+                PlayerManager.Instance.attack.attacking = false;
+            }
+        }
+        else
+        {
+            animator.SetFloat("AttackState", 0);
+            PlayerManager.Instance.attack.attacking = false;
+        }
+            
+    }
+    public void Attack3Event()
+    {
+        PlayerManager.Instance.attack.Attack3();
+        animator.SetFloat("AttackState", 0);
         PlayerManager.Instance.attack.attacking = false;
     }
 }
