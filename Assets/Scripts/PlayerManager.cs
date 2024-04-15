@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class PlayerManager : MonoBehaviour
 {
     private static PlayerManager instance;
@@ -10,6 +12,9 @@ public class PlayerManager : MonoBehaviour
     public PlayerVisual visual;
     public PlayerMovement movement;
     public PlayerAttack attack;
+
+
+
 
     private void Start()
     {
@@ -25,6 +30,13 @@ public class PlayerManager : MonoBehaviour
         instance = this;
     }
 
-    
-
+    public void CanNotFall()
+    {
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+    public void CanFall()
+    {
+        rb.constraints = RigidbodyConstraints2D.None;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
 }

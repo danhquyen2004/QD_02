@@ -25,8 +25,20 @@ public class PlayerAttack : MonoBehaviour
     }
     void Update()
     {
+        //Debug.DrawRay(PlayerManager.Instance.transform.position, Vector3.down*2, Color.yellow);
         if (CanAttack())
-            Attack();
+        {
+            RaycastHit2D ray = Physics2D.Raycast(PlayerManager.Instance.transform.position, Vector3.down, 2, ~LayerMask.GetMask("Player"));
+            if(ray.collider != null)
+            {
+                Attack();
+            }
+            else
+            {
+                AirAttack();
+            }
+        }
+            
     }
     private void Attack()
     {
@@ -37,6 +49,17 @@ public class PlayerAttack : MonoBehaviour
             PlayerManager.Instance.visual.animator.SetTrigger("AttackTrigger");
         }
     }
+    private void AirAttack()
+    {
+        if (InputManager.Instance.Attack)
+        {
+            attacked = true;
+            PlayerManager.Instance.CanNotFall();
+            PlayerManager.Instance.visual.animator.SetFloat("AttackState", 3);
+            PlayerManager.Instance.visual.animator.SetTrigger("AttackTrigger");
+        }
+    }
+
     public bool CanAttack()
     {
         if (attacked)
@@ -100,7 +123,19 @@ public class PlayerAttack : MonoBehaviour
         return false;
     }
 
-    public bool AirAttack1()
+    public void AirAttack1()
+    {
+        PlayerManager.Instance.rb.velocity = Vector2.zero;
+        Collider2D[] cols = Physics2D.OverlapCircleAll(airAttackPoint.transform.position, airRadius);
+        foreach (Collider2D col in cols)
+        {
+            if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                //Do some thing
+            }
+        }
+    }
+    public void AirAttack2()
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(airAttackPoint.transform.position, airRadius);
         foreach (Collider2D col in cols)
@@ -108,41 +143,8 @@ public class PlayerAttack : MonoBehaviour
             if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 //Do some thing
-                return true;
             }
         }
-        return false;
-    }
-    public bool AirAttack2()
-    {
-        Collider2D[] cols = Physics2D.OverlapCircleAll(airAttackPoint.transform.position, airRadius);
-        foreach (Collider2D col in cols)
-        {
-            if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                //Do some thing
-                return true;
-            }
-        }
-        return false;
-    }
-    public bool CanChangeAttackState()
-    {
-        Collider2D col = Physics2D.OverlapCircle(attackPoint.transform.position, radius);
-        if (InputManager.Instance.Horizontal == 0)
-            return true;
-        else if (InputManager.Instance.Horizontal > 0)
-        {
-            if (PlayerManager.Instance.transform.position.x < col.transform.position.x)
-                return true;
-        }
-        else if (InputManager.Instance.Horizontal < 0)
-        {
-            if (PlayerManager.Instance.transform.position.x > col.transform.position.x)
-                return true;
-        }
-
-        return false;
     }
     private void OnDrawGizmos()
     {
