@@ -146,10 +146,10 @@ public class PlayerAttack : MonoBehaviour
             }
         }
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(attackPoint.transform.position, radius);
-        Gizmos.DrawWireSphere(airAttackPoint.transform.position, airRadius);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawWireSphere(attackPoint.transform.position, radius);
+    //    Gizmos.DrawWireSphere(airAttackPoint.transform.position, airRadius);
+    //}
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : EntityManager
 {
     private static PlayerManager instance;
     public static PlayerManager Instance { get { return instance; } }
@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerVisual visual;
     public PlayerMovement movement;
     public PlayerAttack attack;
+
 
 
 

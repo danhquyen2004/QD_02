@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerVisual : MonoBehaviour
 {
     public Animator animator;
+    public GameObject dust;
     private void Start()
     {
         animator = GetComponent<Animator>();
