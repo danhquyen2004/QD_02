@@ -261,8 +261,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5799a7b7ee6c5da47b35f36afd252373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolDownAtk: 0.5
+  coolDownAtk: 0.3
+  coolDownAirAtk: 0.7
   attacking: 0
+  airAttacking: 0
   attackPoint: {fileID: 674511359}
   radius: 1
   airAttackPoint: {fileID: 1674505265}

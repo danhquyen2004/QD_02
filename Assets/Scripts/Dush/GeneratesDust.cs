@@ -16,12 +16,13 @@ public class GeneratesDust : MonoBehaviour
     private void DustHandling()
     {
         if (!PlayerManager.Instance.movement.GroundCheck()) return;
+
         if (DustRun())
             return;
         if (DustJump())
-            return;
-        if (DustFall())
-            return;
+        {
+            StartCoroutine(DustFall());
+        }
     }
     private bool DustRun()
     {
@@ -42,8 +43,9 @@ public class GeneratesDust : MonoBehaviour
     }
     private bool DustJump()
     {
-        if(InputManager.Instance.Jump)
+        if (InputManager.Instance.Jump)
         {
+            ResetDust();
             if (!PlayerManager.Instance.createdDust)
             {
                 PlayerManager.Instance.createdDust = true;
@@ -56,32 +58,55 @@ public class GeneratesDust : MonoBehaviour
         }
         return false;
     }
-    private bool DustFall()
+    private IEnumerator DustFall()
     {
-        if (InputManager.Instance.Jump)
+        yield return new WaitForSeconds(0.1f);
+        while (true)
         {
-            if (!PlayerManager.Instance.createdDust)
+            if (PlayerManager.Instance.movement.GroundCheck())
             {
-                PlayerManager.Instance.createdDust = true;
-                newDust = Instantiate(dustObj, point.position, Quaternion.identity);
-                newDust.SetActive(false);
-                Invoke(nameof(ActiveDustFall), 0.1f);
-                return true;
+                ResetDust();
+                if (!PlayerManager.Instance.createdDust)
+                {
+                    PlayerManager.Instance.createdDust = true;
+                    newDust = Instantiate(dustObj, point.position, Quaternion.identity);
+                    newDust.SetActive(true);
+                    newDust.transform.localScale = PlayerManager.Instance.transform.localScale;
+                    newDust.GetComponent<Animator>().Play("Fall");
+
+                    //Invoke(nameof(ActiveDustFall), 0.1f);
+
+                }
+                break;
             }
+            yield return null;
         }
-        return false;
     }
+    //private bool DustFall()
+    //{
+    //    if (!PlayerManager.Instance.createdDust)
+    //    {
+    //        PlayerManager.Instance.createdDust = true;
+    //        newDust = Instantiate(dustObj, point.position, Quaternion.identity);
+    //        newDust.SetActive(false);
+    //        Invoke(nameof(ActiveDustFall), 0.1f);
+    //        return true;
+    //    }
+    //    return false;
+    //}
     public void ActiveDustFall()
     {
-        if (PlayerManager.Instance.movement.GroundCheck())
+        if (newDust != null)
         {
-            if (newDust != null)
-            {
-                newDust.SetActive(true);
-                newDust.transform.position = point.position;
-                newDust.transform.localScale = PlayerManager.Instance.transform.localScale;
-                newDust.GetComponent<Animator>().Play("Fall");
-            }
+            newDust.SetActive(true);
+            newDust.transform.position = point.position;
+            newDust.transform.localScale = PlayerManager.Instance.transform.localScale;
+            newDust.GetComponent<Animator>().Play("Fall");
         }
+    }
+    private void ResetDust()
+    {
+        Destroy(newDust);
+        PlayerManager.Instance.createdDust = false;
     }
 }

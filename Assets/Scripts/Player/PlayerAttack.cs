@@ -7,8 +7,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] protected float coolDownAtk = 1;
     protected float timer = 1;
     protected bool attacked;
-    public bool attacking;  // attacking == true => Can't move;
 
+    [SerializeField] protected float coolDownAirAtk = 1;
+    protected float airTimer = 1;
+    protected bool airAttacked;
+    public bool attacking;  // attacking == true => Can't move;
+    public bool airAttacking;  // airAttacking == true => can't normal attack;
     [Header("Attack Zone")]
     [SerializeField] protected GameObject attackPoint;
     [SerializeField] protected float radius;
@@ -22,23 +26,22 @@ public class PlayerAttack : MonoBehaviour
     private void Start()
     {
         timer = coolDownAtk;
+        airTimer = coolDownAirAtk;
     }
     void Update()
     {
-        //Debug.DrawRay(PlayerManager.Instance.transform.position, Vector3.down*2, Color.yellow);
-        if (CanAttack())
+        Debug.DrawRay(transform.position, Vector3.down*2);
+        RaycastHit2D ray = Physics2D.Raycast(PlayerManager.Instance.transform.position, Vector3.down, 2, ~LayerMask.GetMask("Player"));
+        if (ray.collider != null)
         {
-            RaycastHit2D ray = Physics2D.Raycast(PlayerManager.Instance.transform.position, Vector3.down, 2, ~LayerMask.GetMask("Player"));
-            if(ray.collider != null)
-            {
+            if (CanAttack() && !airAttacking)
                 Attack();
-            }
-            else
-            {
-                AirAttack();
-            }
         }
-            
+        else
+        {
+            if (CanAirAttack() && !attacking)
+                AirAttack();
+        }
     }
     private void Attack()
     {
@@ -54,6 +57,8 @@ public class PlayerAttack : MonoBehaviour
         if (InputManager.Instance.Attack)
         {
             attacked = true;
+            airAttacked = true;
+            airAttacking = true;
             PlayerManager.Instance.CanNotFall();
             PlayerManager.Instance.visual.animator.SetFloat("AttackState", 3);
             PlayerManager.Instance.visual.animator.SetTrigger("AttackTrigger");
@@ -81,7 +86,27 @@ public class PlayerAttack : MonoBehaviour
             return true;
         }
     }
-
+    public bool CanAirAttack()
+    {
+        if (airAttacked)
+        {
+            if (airTimer > 0)
+            {
+                airTimer -= Time.deltaTime;
+                return false;
+            }
+            else
+            {
+                airAttacked = false;
+                airTimer = coolDownAirAtk;
+                return true;
+            }
+        }
+        else
+        {
+            return true;
+        }
+    }
     public bool Attack1()
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(attackPoint.transform.position, radius);
