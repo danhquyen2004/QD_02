@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public float damage = 3;
+
     [SerializeField] protected float coolDownAtk = 1;
     protected float timer = 1;
     protected bool attacked;
@@ -115,6 +117,7 @@ public class PlayerAttack : MonoBehaviour
             if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 //Do some thing
+                col.gameObject.GetComponent<EntityManager>().TakeDamage(damage);
                 return true;
             }
         }

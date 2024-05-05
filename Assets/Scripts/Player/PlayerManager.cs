@@ -8,18 +8,14 @@ public class PlayerManager : EntityManager
 {
     private static PlayerManager instance;
     public static PlayerManager Instance { get { return instance; } }
-    [HideInInspector] public Rigidbody2D rb;
+
     public PlayerVisual visual;
     public PlayerMovement movement;
     public PlayerAttack attack;
 
-
-
-
-
-    private void Start()
+    protected override void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        base.Start();
     }
     private void Awake()
     {
@@ -29,15 +25,5 @@ public class PlayerManager : EntityManager
             return;
         }
         instance = this;
-    }
-
-    public void CanNotFall()
-    {
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-    }
-    public void CanFall()
-    {
-        rb.constraints = RigidbodyConstraints2D.None;
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 }
