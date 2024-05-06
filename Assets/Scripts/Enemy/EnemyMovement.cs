@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    private Enemy m_enemy;
     public int directionMove = -1;
     [SerializeField] protected float speed;
     [SerializeField] protected float jumpForce;
@@ -23,12 +24,15 @@ public class EnemyMovement : MonoBehaviour
     }
     private void Load()
     {
+        m_enemy = transform.parent.GetComponent<Enemy>();
         pointGroundCheck = transform.Find("GroundCheck").gameObject;
         pointWallCheck = transform.Find("WallCheck").gameObject;
     }
     void Update()
     {
-        
+        if (m_enemy.stun) return;
+        if (m_enemy.dead) return;
+
         if (ChangeDirectionCheck())
             directionMove *= -1;
         Move(directionMove);

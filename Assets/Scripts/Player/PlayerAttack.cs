@@ -131,6 +131,7 @@ public class PlayerAttack : MonoBehaviour
             if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 // do some thing
+                col.gameObject.GetComponent<EntityManager>().TakeDamage(damage+1);
                 return true;
             }
 
@@ -145,6 +146,7 @@ public class PlayerAttack : MonoBehaviour
             if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 // do some thing
+                col.gameObject.GetComponent<EntityManager>().TakeDamage(damage+2);
                 return true;
             }
         }

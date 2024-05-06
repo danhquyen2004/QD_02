@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class EntityManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class EntityManager : MonoBehaviour
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
     [SerializeField] public bool dead;
+    [HideInInspector] public bool stun;
 
     protected virtual void Start()
     {
@@ -41,5 +43,13 @@ public class EntityManager : MonoBehaviour
         dead = true;
         rb.bodyType = RigidbodyType2D.Static;
     }
-
+    public void EntityStun(float time)
+    {
+        stun = true;
+        Invoke(nameof(OutOfStun), time);
+    }
+    public void OutOfStun()
+    {
+        stun = false;
+    }   
 }

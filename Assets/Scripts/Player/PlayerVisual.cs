@@ -34,7 +34,7 @@ public class PlayerVisual : MonoBehaviour
     {
         if (PlayerManager.Instance.attack.Attack1())
         {
-            animator.SetFloat("AttackState", 1);
+            //animator.SetFloat("AttackState", 1);
             PlayerManager.Instance.attack.attacking = false;
         }
         else
@@ -44,7 +44,7 @@ public class PlayerVisual : MonoBehaviour
     {
         if (PlayerManager.Instance.attack.Attack2())
         {
-            animator.SetFloat("AttackState", 2);
+            //animator.SetFloat("AttackState", 2);
             PlayerManager.Instance.attack.attacking = false;
         }
         else
@@ -52,15 +52,17 @@ public class PlayerVisual : MonoBehaviour
             animator.SetFloat("AttackState", 0);
             PlayerManager.Instance.attack.attacking = false;
         }
-
     }
     public void Attack3Event()
     {
         PlayerManager.Instance.attack.Attack3();
-        animator.SetFloat("AttackState", 0);
+        //animator.SetFloat("AttackState", 0);
         PlayerManager.Instance.attack.attacking = false;
     }
-
+    public void ChangeAttackAnim(float x)
+    {
+        animator.SetFloat("AttackState", x);
+    }
     public void AirAttack1Event()
     {
         PlayerManager.Instance.attack.AirAttack1();
