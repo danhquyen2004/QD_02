@@ -6,6 +6,7 @@ public class PlayerVisual : MonoBehaviour
 {
     public Animator animator;
     public GameObject dust;
+    private bool hit;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -34,34 +35,46 @@ public class PlayerVisual : MonoBehaviour
     {
         if (PlayerManager.Instance.attack.Attack1())
         {
-            //animator.SetFloat("AttackState", 1);
+            hit = true;
             PlayerManager.Instance.attack.attacking = false;
         }
         else
+        {
+            hit = false;
             PlayerManager.Instance.attack.attacking = false;
+        }
     }
     public void Attack2Event()
     {
         if (PlayerManager.Instance.attack.Attack2())
         {
-            //animator.SetFloat("AttackState", 2);
+            hit = true;
             PlayerManager.Instance.attack.attacking = false;
         }
         else
         {
+            hit = false;
             animator.SetFloat("AttackState", 0);
             PlayerManager.Instance.attack.attacking = false;
         }
     }
     public void Attack3Event()
     {
-        PlayerManager.Instance.attack.Attack3();
-        //animator.SetFloat("AttackState", 0);
+        if(!PlayerManager.Instance.attack.Attack3())
+            hit = false;
         PlayerManager.Instance.attack.attacking = false;
     }
     public void ChangeAttackAnim(float x)
     {
-        animator.SetFloat("AttackState", x);
+        if(x!=0)
+        {
+            if (hit)
+            {
+                animator.SetFloat("AttackState", x);
+            }    
+        }    
+        else
+            animator.SetFloat("AttackState", x);
     }
     public void AirAttack1Event()
     {

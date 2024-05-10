@@ -36,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
         if (CanAttack())
         {
             RaycastHit2D ray = Physics2D.Raycast(PlayerManager.Instance.transform.position, Vector3.down, 2, ~playerAndEnemyLayerMask);
-            if (ray.collider != null && PlayerManager.Instance.movement.GroundCheck())
+            if (ray.collider != null)
             {
                 Attack();
                 return;
@@ -128,9 +128,19 @@ public class PlayerAttack : MonoBehaviour
         {
             if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                // do some thing
-                col.gameObject.GetComponent<EntityManager>().TakeDamage(damage+2);
-                col.gameObject.GetComponent<Rigidbody2D>().AddForce(ForceDirection(400));
+                Enemy enemy = col.gameObject.GetComponent<Enemy>();
+
+                // enemy take damge
+                enemy.TakeDamage(damage+2);
+
+                // enemy lie down
+                if(enemy.rb.bodyType == RigidbodyType2D.Dynamic)
+                    enemy.rb.velocity = Vector3.zero;
+                enemy.rb.AddForce(ForceDirection(650));
+                enemy.StartLie(1.5f);
+
+
+
                 return true;
             }
         }
@@ -141,11 +151,11 @@ public class PlayerAttack : MonoBehaviour
         Vector3 forceDirection;
         if (PlayerManager.Instance.transform.localScale.x > 0)
         {
-            forceDirection = Quaternion.Euler(0, 0, 80) * Vector3.right * force;
+            forceDirection = Quaternion.Euler(0, 0, 45) * Vector3.right * force;
         }
         else
         {
-            forceDirection = Quaternion.Euler(0, 0, 100) * Vector3.right * force;
+            forceDirection = Quaternion.Euler(0, 0, 135) * Vector3.right * force;
         }
         return forceDirection;
     }

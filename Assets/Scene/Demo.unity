@@ -325,9 +325,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 3
   coolDownAtk: 0.3
-  coolDownAirAtk: 0.7
+  attacked: 0
+  airAttacked: 0
   attacking: 0
-  airAttacking: 0
   attackPoint: {fileID: 674511359}
   radius: 1
   airAttackPoint: {fileID: 1674505265}
@@ -1437,6 +1437,7 @@ MonoBehaviour:
   currentHealth: 0
   dead: 0
   stun: 0
+  lieDown: 0
   visual: {fileID: 0}
   movement: {fileID: 0}
   takeDamgeParticles: {fileID: 0}

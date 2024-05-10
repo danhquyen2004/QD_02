@@ -24,7 +24,7 @@ public class EnemyMovement : EntityMovement
     }
     void Update()
     {
-        if (m_enemy.stun || m_enemy.dead) return;
+        if (!m_enemy.CanMove()) return;
 
         if (ChangeDirectionCheck() && GroundCheck())
             directionMove *= -1;

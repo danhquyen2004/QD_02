@@ -25,6 +25,9 @@ public class CrabbyVisual : MonoBehaviour
         //        animator.SetFloat("MoveState", 2); // Jump
         //    return;
         //}
+
+        animator.SetBool("LieDown",crabby.lieDown);
+
         if(crabby.dead)
         {
             animator.SetTrigger("DeadTrigger");
