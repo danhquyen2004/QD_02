@@ -69,8 +69,10 @@ public class PlayerVisual : MonoBehaviour
     }
     public void AirAttack2Event()
     {
-        PlayerManager.Instance.attack.airAttacking = false;
         PlayerManager.Instance.attack.AirAttack2();
+    }
+    public void FinishAirAttack()
+    {
         PlayerManager.Instance.CanFall();
         animator.SetFloat("MoveState", 3); // Fall
         animator.SetFloat("AttackState", 0);

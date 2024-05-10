@@ -2,14 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : EntityMovement
 {
-    [SerializeField] protected float speed;
-    [SerializeField] protected float jumpForce;
-    [SerializeField] protected GameObject pointGroundCheck;
-    [SerializeField] protected GameObject pointWallCheck;
-    [SerializeField] protected Vector2 sizeBoxCheckGround;
-    [SerializeField] protected Vector2 sizeBoxCheckWall;
     private void Reset()
     {
         Load();
@@ -34,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         Jump();
     }
 
-    private void Move(float direction)
+    public override void Move(float direction)
     {
         if (direction < 0)
             transform.parent.localScale = new Vector3(-1,1,1);
@@ -44,13 +38,18 @@ public class PlayerMovement : MonoBehaviour
         Vector2 velocity = transform.parent.GetComponent<Rigidbody2D>().velocity;
         transform.parent.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * speed,velocity.y);
     }
-    private void Jump()
+    public override void Jump()
     {
         if (GroundCheck())
             if (InputManager.Instance.Jump)
+            {
+                PlayerManager.Instance.attack.attacking = false;
+                PlayerManager.Instance.attack.attacked = false;
                 transform.parent.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce);
+            }
+                
     }
-    public bool GroundCheck()
+    public override bool GroundCheck()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(pointGroundCheck.transform.position, sizeBoxCheckGround, 0);
         foreach (Collider2D collider in colliders)
@@ -60,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         }
         return false;
     }
-    public bool WallCheck()
+    public override bool WallCheck()
     {
         Collider2D[] colliders = Physics2D.OverlapBoxAll(pointWallCheck.transform.position, sizeBoxCheckWall, 0);
         foreach (Collider2D collider in colliders)

@@ -8,13 +8,11 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] protected float coolDownAtk = 1;
     protected float timer = 1;
-    protected bool attacked;
-
-    [SerializeField] protected float coolDownAirAtk = 1;
-    protected float airTimer = 1;
-    protected bool airAttacked;
+    [HideInInspector] public bool attacked;
+    [HideInInspector] public bool airAttacked;
     public bool attacking;  // attacking == true => Can't move;
-    public bool airAttacking;  // airAttacking == true => can't normal attack;
+
+
     [Header("Attack Zone")]
     [SerializeField] protected GameObject attackPoint;
     [SerializeField] protected float radius;
@@ -23,26 +21,30 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] protected GameObject airAttackPoint;
     [SerializeField] protected float airRadius;
 
-
+    private int playerAndEnemyLayerMask;
 
     private void Start()
     {
+        playerAndEnemyLayerMask = LayerMask.GetMask("Player", "Enemy");
         timer = coolDownAtk;
-        airTimer = coolDownAirAtk;
     }
     void Update()
     {
-        Debug.DrawRay(transform.position, Vector3.down*2);
-        RaycastHit2D ray = Physics2D.Raycast(PlayerManager.Instance.transform.position, Vector3.down, 2, ~LayerMask.GetMask("Player"));
-        if (ray.collider != null)
+        if (PlayerManager.Instance.movement.GroundCheck()) airAttacked = false;
+
+        Debug.DrawRay(PlayerManager.Instance.transform.position, Vector3.down*2, Color.yellow);
+        if (CanAttack())
         {
-            if (CanAttack() && !airAttacking)
+            RaycastHit2D ray = Physics2D.Raycast(PlayerManager.Instance.transform.position, Vector3.down, 2, ~playerAndEnemyLayerMask);
+            if (ray.collider != null && PlayerManager.Instance.movement.GroundCheck())
+            {
                 Attack();
-        }
-        else
-        {
-            if (CanAirAttack() && !attacking)
+                return;
+            }
+            if (ray.collider == null && CanAirAttack())
+            {
                 AirAttack();
+            }
         }
     }
     private void Attack()
@@ -60,10 +62,8 @@ public class PlayerAttack : MonoBehaviour
         {
             attacked = true;
             airAttacked = true;
-            airAttacking = true;
             PlayerManager.Instance.CanNotFall();
-            PlayerManager.Instance.visual.animator.SetFloat("AttackState", 3);
-            PlayerManager.Instance.visual.animator.SetTrigger("AttackTrigger");
+            PlayerManager.Instance.visual.animator.Play("AirAttack");
         }
     }
 
@@ -90,24 +90,7 @@ public class PlayerAttack : MonoBehaviour
     }
     public bool CanAirAttack()
     {
-        if (airAttacked)
-        {
-            if (airTimer > 0)
-            {
-                airTimer -= Time.deltaTime;
-                return false;
-            }
-            else
-            {
-                airAttacked = false;
-                airTimer = coolDownAirAtk;
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
+        return !airAttacked;
     }
     public bool Attack1()
     {
@@ -147,12 +130,25 @@ public class PlayerAttack : MonoBehaviour
             {
                 // do some thing
                 col.gameObject.GetComponent<EntityManager>().TakeDamage(damage+2);
+                col.gameObject.GetComponent<Rigidbody2D>().AddForce(ForceDirection(400));
                 return true;
             }
         }
         return false;
     }
-
+    private Vector3 ForceDirection(float force)
+    {
+        Vector3 forceDirection;
+        if (PlayerManager.Instance.transform.localScale.x > 0)
+        {
+            forceDirection = Quaternion.Euler(0, 0, 80) * Vector3.right * force;
+        }
+        else
+        {
+            forceDirection = Quaternion.Euler(0, 0, 100) * Vector3.right * force;
+        }
+        return forceDirection;
+    }
     public void AirAttack1()
     {
         PlayerManager.Instance.rb.velocity = Vector2.zero;
