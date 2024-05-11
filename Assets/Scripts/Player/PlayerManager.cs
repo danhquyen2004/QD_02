@@ -8,7 +8,6 @@ public class PlayerManager : EntityManager
 {
     private static PlayerManager instance;
     public static PlayerManager Instance { get { return instance; } }
-
     public PlayerVisual visual;
     public PlayerMovement movement;
     public PlayerAttack attack;

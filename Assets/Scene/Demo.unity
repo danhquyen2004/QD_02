@@ -324,14 +324,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
-  coolDownAtk: 0.3
+  coolDown: 0.3
   attacked: 0
   airAttacked: 0
-  attacking: 0
   attackPoint: {fileID: 674511359}
   radius: 1
+  attacking: 0
   airAttackPoint: {fileID: 1674505265}
-  airRadius: 1.02
+  airRadius: 1.5
+  swordPrefab: {fileID: 5977445172719257731, guid: fb3d6dd445f24694383e7c8c24c0a837, type: 3}
+  holdingSword: 0
 --- !u!1 &333228390
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,7 +1435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   createdDust: 0
-  maxHealth: 100
+  maxHealth: 20
   currentHealth: 0
   dead: 0
   stun: 0
@@ -1466,7 +1468,7 @@ Transform:
   m_GameObject: {fileID: 1674505265}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4, y: -1.34, z: 0}
+  m_LocalPosition: {x: 1.81, y: -1.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

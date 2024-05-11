@@ -23,16 +23,9 @@ public class Crabby : Enemy
         if (!dead)
         {
             visual.animator.SetTrigger("HitTrigger");
-            EntityStun(TimeStun());
+            EntityStun(TimeAnimationClip(visual.animator,"Hit"));
         }
     }
             
-    public float TimeStun()
-    {
-        AnimationClip[] clips = visual.animator.runtimeAnimatorController.animationClips;
-        foreach (AnimationClip clip in clips)
-            if (clip.name == "Hit")
-                return clip.length;
-        return 0;
-    }
+    
 }

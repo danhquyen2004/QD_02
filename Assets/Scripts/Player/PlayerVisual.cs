@@ -64,6 +64,14 @@ public class PlayerVisual : MonoBehaviour
             hit = false;
         PlayerManager.Instance.attack.attacking = false;
     }
+    public void ThrowSwordEven()
+    {
+        PlayerManager.Instance.attack.InstantiateSword();
+    }
+    public void SetLayerWithoutSword(int state)
+    {
+        animator.SetLayerWeight(animator.GetLayerIndex("WithoutSword"), state);
+    }    
     public void ChangeAttackAnim(float x)
     {
         if(x!=0)

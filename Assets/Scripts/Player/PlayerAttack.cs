@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,36 +6,43 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public float damage = 3;
+    [SerializeField] protected float coolDown = 1;
 
-    [SerializeField] protected float coolDownAtk = 1;
     protected float timer = 1;
     [HideInInspector] public bool attacked;
     [HideInInspector] public bool airAttacked;
-    public bool attacking;  // attacking == true => Can't move;
-
+    
 
     [Header("Attack Zone")]
     [SerializeField] protected GameObject attackPoint;
     [SerializeField] protected float radius;
+    [HideInInspector] public bool attacking;  // attacking == true => Can't move;
 
     [Header("Air Attack Zone")]
     [SerializeField] protected GameObject airAttackPoint;
     [SerializeField] protected float airRadius;
 
+    [Header("Throw Sword Zone")]
+    [SerializeField] protected GameObject swordPrefab;
+     public bool holdingSword;
+
     private int playerAndEnemyLayerMask;
 
     private void Start()
     {
+        holdingSword = true;
         playerAndEnemyLayerMask = LayerMask.GetMask("Player", "Enemy");
-        timer = coolDownAtk;
+        timer = coolDown;
     }
     void Update()
     {
         if (PlayerManager.Instance.movement.GroundCheck()) airAttacked = false;
 
-        Debug.DrawRay(PlayerManager.Instance.transform.position, Vector3.down*2, Color.yellow);
+        if (!holdingSword) return;
+        //Debug.DrawRay(PlayerManager.Instance.transform.position, Vector3.down*2, Color.yellow);
         if (CanAttack())
         {
+            ThrowSword();
             RaycastHit2D ray = Physics2D.Raycast(PlayerManager.Instance.transform.position, Vector3.down, 2, ~playerAndEnemyLayerMask);
             if (ray.collider != null)
             {
@@ -67,7 +75,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    public bool CanAttack()
+    private bool CanAttack()
     {
         if (attacked)
         {
@@ -79,7 +87,7 @@ public class PlayerAttack : MonoBehaviour
             else
             {
                 attacked = false;
-                timer = coolDownAtk;
+                timer = coolDown;
                 return true;
             }
         }
@@ -88,7 +96,7 @@ public class PlayerAttack : MonoBehaviour
             return true;
         }
     }
-    public bool CanAirAttack()
+    private bool CanAirAttack()
     {
         return !airAttacked;
     }
@@ -139,8 +147,6 @@ public class PlayerAttack : MonoBehaviour
                 enemy.rb.AddForce(ForceDirection(650));
                 enemy.StartLie(1.5f);
 
-
-
                 return true;
             }
         }
@@ -168,6 +174,7 @@ public class PlayerAttack : MonoBehaviour
             if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 //Do some thing
+                col.gameObject.GetComponent<EntityManager>().TakeDamage(damage + 1);
             }
         }
     }
@@ -178,14 +185,46 @@ public class PlayerAttack : MonoBehaviour
         {
             if (col.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                //Do some thing
+                Enemy enemy = col.gameObject.GetComponent<Enemy>();
+
+                // enemy take damge
+                enemy.TakeDamage(damage + 2);
+
+                // enemy lie down
+                if (enemy.rb.bodyType == RigidbodyType2D.Dynamic)
+                    enemy.rb.velocity = Vector3.zero;
+                enemy.rb.AddForce(ForceDirection(650));
+                enemy.StartLie(1.5f);
             }
         }
+    }
+
+
+    public void ThrowSword()
+    {
+        if(InputManager.Instance.Attack2)
+        {
+            attacked = true;
+            holdingSword = false;
+            PlayerManager.Instance.visual.animator.SetTrigger("AttackTrigger");
+            PlayerManager.Instance.visual.animator.SetFloat("AttackState", 3);
+            Invoke(nameof(ChangeWithoutSword),
+                PlayerManager.Instance.TimeAnimationClip(PlayerManager.Instance.visual.animator,"ThrowSword"));
+        }
+    }
+    private void ChangeWithoutSword()
+    {
+        PlayerManager.Instance.visual.SetLayerWithoutSword(1);
+    }
+    public void InstantiateSword()
+    {
+        GameObject sword = Instantiate(swordPrefab, attackPoint.transform.position, Quaternion.identity);
+        sword.GetComponent<Sword>().SetDir(PlayerManager.Instance.transform.localScale.x);
     }
     //private void OnDrawGizmos()
     //{
     //    Gizmos.color = Color.green;
-    //    Gizmos.DrawWireSphere(attackPoint.transform.position, radius);
+    //    //Gizmos.DrawWireSphere(attackPoint.transform.position, radius);
     //    Gizmos.DrawWireSphere(airAttackPoint.transform.position, airRadius);
     //}
 }
