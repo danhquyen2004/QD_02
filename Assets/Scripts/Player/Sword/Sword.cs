@@ -10,7 +10,7 @@ public class Sword : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
-    private bool canPick;
+    public bool canPick;
     void Update()
     {
         transform.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * speed, 0);
@@ -37,16 +37,24 @@ public class Sword : MonoBehaviour
                 if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
                 {
                     //Do some thing
+                    PlayerPickSword();
                     collision.gameObject.GetComponent<EntityManager>().TakeDamage(PlayerManager.Instance.attack.damage);
+                    Destroy(gameObject);
                 }
-                Destroy(gameObject);
             }
             else
             {
                 if(canPick)
+                {
+                    PlayerPickSword();
                     Destroy(gameObject);
+                }
             }    
         }
+    }
+    private void PlayerPickSword()
+    {
+        PlayerManager.Instance.attack.holdingSword = true;
     }
 
 }
