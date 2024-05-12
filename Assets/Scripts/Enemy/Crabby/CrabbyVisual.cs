@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class CrabbyVisual : MonoBehaviour
@@ -17,15 +18,6 @@ public class CrabbyVisual : MonoBehaviour
     }
     private void AnimationHandling()
     {
-        //if (crabby.movement.GroundCheck())
-        //{
-        //    if (crabby.rb.velocity.y <= 0)
-        //        animator.SetFloat("MoveState", 3); // Fall
-        //    else
-        //        animator.SetFloat("MoveState", 2); // Jump
-        //    return;
-        //}
-
         animator.SetBool("LieDown",crabby.lieDown);
 
         if(crabby.dead)
@@ -35,8 +27,17 @@ public class CrabbyVisual : MonoBehaviour
         }
 
         if (crabby.movement.directionMove != 0)
-            animator.SetFloat("MoveState", 1); // Run
-        else
-            animator.SetFloat("MoveState", 0); // Idle
+        {
+            if (crabby.rb.velocity.x != 0)
+                animator.SetFloat("MoveState", 1); // Run
+            else
+                animator.SetFloat("MoveState", 0); // Idle
+        }
+    }
+
+    public void AttackEvent()
+    {
+        crabby.attack.attacking = false;
+        crabby.attack.AttackEven();
     }
 }

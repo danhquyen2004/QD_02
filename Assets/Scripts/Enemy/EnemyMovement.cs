@@ -4,32 +4,21 @@ using UnityEngine;
 
 public class EnemyMovement : EntityMovement
 {
-    private Enemy m_enemy;
+    protected Enemy m_enemy;
     public int directionMove = 1;
     [SerializeField] protected GameObject pointChangeDirCheck;
 
-    private void Reset()
+    protected void Reset()
     {
         Load();
     }
-    private void Start()
-    {
-        Load();
-    }
-    private void Load()
+    protected void Load()
     {
         m_enemy = transform.parent.GetComponent<Enemy>();
         pointGroundCheck = transform.Find("GroundCheck").gameObject;
         pointWallCheck = transform.Find("WallCheck").gameObject;
     }
-    void Update()
-    {
-        if (!m_enemy.CanMove()) return;
-
-        if (ChangeDirectionCheck() && GroundCheck())
-            directionMove *= -1;
-        Move(directionMove);
-    }
+    
 
     public override void Move(float direction)
     {
@@ -70,7 +59,7 @@ public class EnemyMovement : EntityMovement
         return false;
     }
 
-    private bool ChangeDirectionCheck()
+    protected bool ChangeDirectionCheck()
     {
         Debug.DrawRay(pointChangeDirCheck.transform.position, Vector3.down);
         RaycastHit2D colliderCheckGround = Physics2D.Raycast(pointChangeDirCheck.transform.position, Vector3.down, 1, LayerMask.GetMask("Ground"));

@@ -25,4 +25,14 @@ public class PlayerManager : EntityManager
         }
         instance = this;
     }
+    public override void TakeDamage(float damage)
+    {
+        if (dead) return;
+        base.TakeDamage(damage);
+        //if (!dead)
+        //{
+        //    visual.animator.SetTrigger("HitTrigger");
+        //    EntityStun(TimeAnimationClip(visual.animator, "Hit"));
+        //}
+    }
 }
