@@ -7016,7 +7016,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   createdDust: 0
-  maxHealth: 30
+  maxHealth: 10
   currentHealth: 0
   dead: 0
   stun: 0

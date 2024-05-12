@@ -17,11 +17,15 @@ public class PlayerVisual : MonoBehaviour
     }
     private void AnimationHandling()
     {
-        if(PlayerManager.Instance.attack.holdingSword)
+        if (PlayerManager.Instance.dead)
+        {
+            animator.SetTrigger("DeadTrigger");
+            return;
+        }
+        if (PlayerManager.Instance.attack.holdingSword)
         {
             PlayerManager.Instance.visual.SetLayerWithoutSword(0);
         }
-
         if (!PlayerManager.Instance.movement.GroundCheck())
         {
             if (PlayerManager.Instance.rb.velocity.y <= 0)

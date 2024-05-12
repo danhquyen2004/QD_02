@@ -36,6 +36,8 @@ public class PlayerAttack : MonoBehaviour
     }
     void Update()
     {
+        if (!PlayerManager.Instance.CanMove()) return;
+
         if (PlayerManager.Instance.movement.GroundCheck()) airAttacked = false;
         ResetSword();
 

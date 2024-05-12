@@ -48,8 +48,7 @@ public class GeneratesDust : MonoBehaviour
         }
         else if(entityManager is Enemy) 
         {
-            EnemyMovement movement = (EnemyMovement)entityMovement;
-            if (movement.directionMove != 0)
+            if (entityManager.rb.velocity.x != 0)
             {
                 if (!entityManager.createdDust)
                 {

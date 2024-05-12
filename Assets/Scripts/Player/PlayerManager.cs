@@ -29,10 +29,16 @@ public class PlayerManager : EntityManager
     {
         if (dead) return;
         base.TakeDamage(damage);
-        //if (!dead)
-        //{
-        //    visual.animator.SetTrigger("HitTrigger");
-        //    EntityStun(TimeAnimationClip(visual.animator, "Hit"));
-        //}
+        if (!dead)
+        {
+            visual.animator.SetTrigger("HitTrigger");
+            EntityStun(TimeAnimationClip(visual.animator, "Hit"));
+        }
+
+    }
+    public bool CanMove()
+    {
+        if (stun || dead ) return false;
+        else return true;
     }
 }
