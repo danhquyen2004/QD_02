@@ -11,8 +11,11 @@ public class Sword : MonoBehaviour
     [SerializeField] private Animator animator;
 
     public bool canPick;
+    public float maxDistance;
     void Update()
     {
+        CheckMaxDistance();
+        SetTriggerForSword();
         transform.GetComponent<Rigidbody2D>().velocity = new Vector2(direction * speed, 0);
     }
 
@@ -39,22 +42,45 @@ public class Sword : MonoBehaviour
                     //Do some thing
                     PlayerPickSword();
                     collision.gameObject.GetComponent<EntityManager>().TakeDamage(PlayerManager.Instance.attack.damage);
-                    Destroy(gameObject);
                 }
             }
             else
             {
-                if(canPick)
+                if (canPick)
                 {
                     PlayerPickSword();
-                    Destroy(gameObject);
                 }
-            }    
+            }
         }
+    }
+    private void SetTriggerForSword()
+    {
+        RaycastHit2D[] raycastHit2Ds = Physics2D.RaycastAll(transform.position, Vector2.right * direction, 1);
+        Debug.DrawRay(transform.position, Vector2.right * direction * 1);
+        foreach(RaycastHit2D ray in raycastHit2Ds)
+        {
+            if(ray.collider.gameObject.tag == "OneWay")
+            {
+                gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+                return;
+            }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
     }
     private void PlayerPickSword()
     {
         PlayerManager.Instance.attack.holdingSword = true;
+        Destroy(gameObject);
     }
-
+    private void CheckMaxDistance()
+    {
+        if(Vector2.Distance(transform.position, PlayerManager.Instance.transform.position) > maxDistance)
+        {
+            PlayerPickSword();
+        }
+        Debug.Log(Vector2.Distance(transform.position, PlayerManager.Instance.transform.position));
+    }
 }
