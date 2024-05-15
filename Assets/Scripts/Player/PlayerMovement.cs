@@ -17,7 +17,7 @@ public class PlayerMovement : EntityMovement
         pointGroundCheck = transform.Find("GroundCheck").gameObject;
         pointWallCheck = transform.Find("WallCheck").gameObject;
         speed = 6f;
-        jumpForce = 700f;
+        jumpForce = 900;
         sizeBoxCheckGround = new Vector2(0.9f, 0.4f);
         sizeBoxCheckWall = new Vector2(1.5f, 1.3f);
     }
@@ -56,7 +56,7 @@ public class PlayerMovement : EntityMovement
         Collider2D[] colliders = Physics2D.OverlapBoxAll(pointGroundCheck.transform.position, sizeBoxCheckGround, 0);
         foreach (Collider2D collider in colliders)
         {
-            if (LayerMask.LayerToName(collider.gameObject.layer) == "Ground")
+            if (LayerMask.LayerToName(collider.gameObject.layer) == "Ground" && PlayerManager.Instance.rb.velocity.y<=0)
                 return true;
         }
         return false;
