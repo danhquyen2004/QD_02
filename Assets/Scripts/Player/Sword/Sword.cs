@@ -91,6 +91,5 @@ public class Sword : MonoBehaviour
         {
             PlayerPickSword();
         }
-        Debug.Log(Vector2.Distance(transform.position, PlayerManager.Instance.transform.position));
     }
 }

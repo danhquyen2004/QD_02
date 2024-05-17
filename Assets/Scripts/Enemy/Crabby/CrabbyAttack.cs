@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrabbyAttack : MonoBehaviour
+public class CrabbyAttack : EnemyAttack
 {
     private Crabby crabby;
-    public float damage = 3;
-    [SerializeField] protected float coolDown = 1;
-    protected float timer = 1;
-    [HideInInspector] public bool attacked;
-    [HideInInspector] public bool airAttacked;
-
 
     [Header("Attack Zone")]
     [SerializeField] protected GameObject[] attackPoints;
@@ -39,27 +33,7 @@ public class CrabbyAttack : MonoBehaviour
             crabby.visual.animator.SetTrigger("AttackTrigger");
         }
     }
-    private bool CanAttack()
-    {
-        if (attacked)
-        {
-            if (timer > 0)
-            {
-                timer -= Time.deltaTime;
-                return false;
-            }
-            else
-            {
-                attacked = false;
-                timer = coolDown;
-                return true;
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }
+    
     public void AttackEven()
     {
         foreach (GameObject point in attackPoints)

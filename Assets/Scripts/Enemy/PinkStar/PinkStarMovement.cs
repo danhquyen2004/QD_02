@@ -1,0 +1,23 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PinkStarMovement : EnemyMovement
+{
+    protected PinkStar pinkStar;
+    protected int oldDirection;
+    protected void Start()
+    {
+        Load();
+        pinkStar = GetComponentInParent<PinkStar>();
+    }
+    void Update()
+    {
+        if (!pinkStar.CanMove()) return;
+        if (pinkStar.attack.DetectPlayer()) return;
+        if (ChangeDirectionCheck() && GroundCheck())
+            directionMove *= -1;
+
+        Move(directionMove);
+    }
+}
