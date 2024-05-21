@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EntityMovement : MonoBehaviour
 {
-    [SerializeField] protected float speed;
+    [SerializeField] public float speed;
     [SerializeField] protected float jumpForce;
     [SerializeField] protected GameObject pointGroundCheck;
     [SerializeField] protected GameObject pointWallCheck;

@@ -9,14 +9,18 @@ public class PinkStarAttack : EnemyAttack
     private PinkStar pinkStar;
 
     [Header("Attack Zone")]
-    [SerializeField] protected GameObject[] attackPoints;
+    [SerializeField] protected Transform attackPoint;
 
-    [SerializeField] protected float radius;
-    [HideInInspector] public bool attacking;  // attacking == true => Can't move;
+    [SerializeField] protected float radiusHit;
+    [SerializeField] protected float radiusDetect;
+    [HideInInspector] public bool attacking;  // attacking == true => Run attack move;
+
+    private float oldSpeed;
     private void Start()
     {
         pinkStar = GetComponentInParent<PinkStar>();
         timer = coolDown;
+        attackPoint = transform.parent;
     }
     private void Update()
     {
@@ -25,6 +29,11 @@ public class PinkStarAttack : EnemyAttack
         {
             Attack();
         }
+
+        if(oldSpeed!=0 && !attacking)
+        {
+            pinkStar.movement.speed = oldSpeed;
+        }
     }
     private void Attack()
     {
@@ -32,38 +41,50 @@ public class PinkStarAttack : EnemyAttack
         {
             attacked = true;
             attacking = true;
+            AttackMovement();
             pinkStar.visual.animator.SetTrigger("AttackTrigger");
         }
     }
-
+    public void AttackMovement()
+    {
+        oldSpeed = pinkStar.movement.speed;
+        pinkStar.movement.speed = pinkStar.movement.speed * 2;
+    }
     public void AttackEven()
     {
-        foreach (GameObject point in attackPoints)
+        Collider2D[] cols = Physics2D.OverlapCircleAll(attackPoint.position, radiusHit);
+        foreach (Collider2D col in cols)
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(point.transform.position, radius);
-            foreach (Collider2D col in cols)
+            if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
-                {
-                    PlayerManager player = col.gameObject.GetComponent<PlayerManager>();
+                PlayerManager player = col.gameObject.GetComponent<PlayerManager>();
 
-                    //Do some thing
-                    player.TakeDamage(damage);
-                }
+                //Do some thing
+                player.TakeDamage(damage);
             }
         }
+
     }
     public bool DetectPlayer()
     {
-        foreach (GameObject point in attackPoints)
+        Collider2D[] cols = Physics2D.OverlapCircleAll(attackPoint.position, radiusDetect);
+        foreach (Collider2D col in cols)
         {
-            Collider2D[] cols = Physics2D.OverlapCircleAll(point.transform.position, radius);
-            foreach (Collider2D col in cols)
+            if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
             {
-                if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
-                {
-                    return true;
-                }
+                return true;
+            }
+        }
+        return false;
+    }
+    public bool HitPlayer()
+    {
+        Collider2D[] cols = Physics2D.OverlapCircleAll(attackPoint.position, radiusHit);
+        foreach (Collider2D col in cols)
+        {
+            if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                return true;
             }
         }
         return false;
@@ -71,10 +92,8 @@ public class PinkStarAttack : EnemyAttack
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        foreach (GameObject point in attackPoints)
-        {
-            Gizmos.DrawWireSphere(point.transform.position, radius);
-        }
+        Gizmos.DrawWireSphere(attackPoint.position, radiusHit);
+        Gizmos.DrawWireSphere(attackPoint.position, radiusDetect);
 
         //Gizmos.DrawWireSphere(airAttackPoint.transform.position, airRadius);
     }

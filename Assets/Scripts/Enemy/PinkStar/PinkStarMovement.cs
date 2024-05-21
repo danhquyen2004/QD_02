@@ -14,7 +14,6 @@ public class PinkStarMovement : EnemyMovement
     void Update()
     {
         if (!pinkStar.CanMove()) return;
-        if (pinkStar.attack.DetectPlayer()) return;
         if (ChangeDirectionCheck() && GroundCheck())
             directionMove *= -1;
 

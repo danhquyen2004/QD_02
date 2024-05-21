@@ -2225,26 +2225,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &4588316991685940346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7823974683827260500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18cc9f4bdd63cae4f9da09c6c89ece49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 3
-  coolDown: 1.2
-  attacked: 0
-  attackPoints:
-  - {fileID: 22855218010408204}
-  - {fileID: 2402165457866060555}
-  radius: 0.69
-  attacking: 0
 --- !u!1 &4632190975097973574
 GameObject:
   m_ObjectHideFlags: 0
@@ -7287,7 +7267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3786201824973402597}
-  - component: {fileID: 4588316991685940346}
+  - component: {fileID: 7823974683827260501}
   m_Layer: 6
   m_Name: Attack
   m_TagString: Untagged
@@ -7295,6 +7275,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7823974683827260501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823974683827260500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 494696763a0977b43b710e90c2466df8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 3
+  coolDown: 1.2
+  attacked: 0
+  attackPoint: {fileID: 0}
+  radiusHit: 0
+  radiusDetect: 0
+  attacking: 0
 --- !u!1 &8155635203554232305
 GameObject:
   m_ObjectHideFlags: 0
