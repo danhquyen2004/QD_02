@@ -7,7 +7,7 @@ public class EnemyAttack : MonoBehaviour
     public float damage = 3;
     [SerializeField] protected float coolDown = 1;
     protected float timer = 1;
-    [HideInInspector] public bool attacked;
+    [HideInInspector] public bool attacked; // used for the CanAttack method
     protected bool CanAttack()
     {
         if (attacked)

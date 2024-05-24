@@ -17,6 +17,6 @@ public class PinkStarMovement : EnemyMovement
         if (ChangeDirectionCheck() && GroundCheck())
             directionMove *= -1;
 
-        Move(directionMove);
+       //Move(directionMove);
     }
 }

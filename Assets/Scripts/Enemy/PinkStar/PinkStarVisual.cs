@@ -36,7 +36,10 @@ public class PinkStarVisual : MonoBehaviour
 
     public void AttackEvent()
     {
-        pinkStar.attack.attacking = false;
         pinkStar.attack.AttackEven();
+    }
+    public void EndAttackEvent()
+    {
+        pinkStar.attack.EndAttackEvent();
     }
 }

@@ -1629,7 +1629,7 @@ Transform:
   m_GameObject: {fileID: 2120530030}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.55, y: 0.03, z: 0}
+  m_LocalPosition: {x: -5.39, y: 1.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1653,7 +1653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   createdDust: 0
-  maxHealth: 10
+  maxHealth: 1000
   currentHealth: 0
   dead: 0
   stun: 0
@@ -1712,37 +1712,6 @@ MonoBehaviour:
   pointWallCheck: {fileID: 508479527}
   sizeBoxCheckGround: {x: 0.9, y: 0.4}
   sizeBoxCheckWall: {x: 1.5, y: 1.3}
---- !u!1 &22855218010408204
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6831449281026088451}
-  m_Layer: 6
-  m_Name: AtkPoint1
-  m_TagString: Untagged
-  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &32678122442399254
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2402165457866060555}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.57, y: -0.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3786201824973402597}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &397650631851155479
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1754,7 +1723,7 @@ PrefabInstance:
     - target: {fileID: 1704390732843510068, guid: 1cb8c4fca3b22524280fdae52a1adfb2, type: 3}
       propertyPath: entity
       value: 
-      objectReference: {fileID: 5655599661659131738}
+      objectReference: {fileID: 0}
     - target: {fileID: 2199428800426505094, guid: 1cb8c4fca3b22524280fdae52a1adfb2, type: 3}
       propertyPath: m_Name
       value: DustParticles
@@ -1853,8 +1822,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1297252245437249543}
   - component: {fileID: 2334295195730932805}
-  - component: {fileID: 7096048435811430891}
   - component: {fileID: 7096048435811430892}
+  - component: {fileID: 7096048435811430893}
   m_Layer: 6
   m_Name: Visuals
   m_TagString: Untagged
@@ -1928,22 +1897,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &2402165457866060555
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 32678122442399254}
-  m_Layer: 6
-  m_Name: AtkPoint1 (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &2639468554567254434
 Transform:
   m_ObjectHideFlags: 0
@@ -1970,7 +1923,7 @@ GameObject:
   - component: {fileID: 7388813564871721422}
   - component: {fileID: 6516871479155656881}
   - component: {fileID: 3839797575628707346}
-  - component: {fileID: 5655599661659131738}
+  - component: {fileID: 7388813564871721423}
   m_Layer: 6
   m_Name: PinkStar
   m_TagString: Untagged
@@ -2052,26 +2005,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &3232765801087056001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4092627528406050893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db11ae29705a89244b0b4bfa6c1166be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 4
-  jumpForce: 0
-  pointGroundCheck: {fileID: 4478794056746496708}
-  pointWallCheck: {fileID: 6776340032615953349}
-  sizeBoxCheckGround: {x: 0.9, y: 0.5}
-  sizeBoxCheckWall: {x: 4.5, y: 1.3}
-  directionMove: -1
-  pointChangeDirCheck: {fileID: 7157645134012339246}
 --- !u!4 &3427880878229622135
 Transform:
   m_ObjectHideFlags: 0
@@ -2099,9 +2032,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6831449281026088451}
-  - {fileID: 32678122442399254}
+  m_Children: []
   m_Father: {fileID: 7388813564871721422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3839797575628707346
@@ -2140,7 +2071,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6321308944681282429}
-  - component: {fileID: 3232765801087056001}
+  - component: {fileID: 6321308944681282430}
   m_Layer: 7
   m_Name: Movement
   m_TagString: Untagged
@@ -2242,29 +2173,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5655599661659131738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2699981776640680338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27c0de2126597ed4f893631b2f214557, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  createdDust: 0
-  maxHealth: 100
-  currentHealth: 0
-  dead: 0
-  stun: 0
-  lieDown: 0
-  visual: {fileID: 0}
-  attack: {fileID: 0}
-  movement: {fileID: 0}
-  takeDamgeParticles: {fileID: 0}
 --- !u!114 &5680459548126947218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,6 +2208,26 @@ Transform:
   - {fileID: 3427880878229622135}
   m_Father: {fileID: 7388813564871721422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6321308944681282430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092627528406050893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7bb2cc88d80fd4ba6b0d4bdf80a8e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  jumpForce: 0
+  pointGroundCheck: {fileID: 4478794056746496708}
+  pointWallCheck: {fileID: 6776340032615953349}
+  sizeBoxCheckGround: {x: 0, y: 0}
+  sizeBoxCheckWall: {x: 0, y: 0}
+  directionMove: 1
+  pointChangeDirCheck: {fileID: 7157645134012339246}
 --- !u!4 &6490232849346970713
 Transform:
   m_ObjectHideFlags: 0
@@ -2376,35 +2304,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6831449281026088451
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22855218010408204}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.81, y: -0.3, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3786201824973402597}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7096048435811430891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809616790631456988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2715e66ac66e46845b3f1d35c3196dc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crabby: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!95 &7096048435811430892
 Animator:
   serializedVersion: 5
@@ -2426,6 +2325,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7096048435811430893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809616790631456988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea740b5fc8641a4d9e6b3bdf8c1ac07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pinkStar: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!1 &7157645134012339246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2477,6 +2390,29 @@ Transform:
   - {fileID: 8853841483084688321}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7388813564871721423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2699981776640680338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 479197b6984a4d349a9dd5b62361ae92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  createdDust: 0
+  maxHealth: 50
+  currentHealth: 0
+  dead: 0
+  stun: 0
+  lieDown: 0
+  visual: {fileID: 0}
+  attack: {fileID: 0}
+  movement: {fileID: 0}
+  takeDamgeParticles: {fileID: 0}
 --- !u!198 &7808710759089859948
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -7290,9 +7226,9 @@ MonoBehaviour:
   damage: 3
   coolDown: 1.2
   attacked: 0
-  attackPoint: {fileID: 0}
-  radiusHit: 0
-  radiusDetect: 0
+  attackPoint: {fileID: 7388813564871721422}
+  radiusHit: 0.72
+  distanceDetect: 3.5
   attacking: 0
 --- !u!1 &8155635203554232305
 GameObject:
