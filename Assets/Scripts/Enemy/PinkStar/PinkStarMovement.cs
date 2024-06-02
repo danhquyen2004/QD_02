@@ -5,7 +5,6 @@ using UnityEngine;
 public class PinkStarMovement : EnemyMovement
 {
     protected PinkStar pinkStar;
-    protected int oldDirection;
     protected void Start()
     {
         Load();
@@ -17,6 +16,6 @@ public class PinkStarMovement : EnemyMovement
         if (ChangeDirectionCheck() && GroundCheck())
             directionMove *= -1;
 
-       //Move(directionMove);
+       Move(directionMove);
     }
 }

@@ -1653,7 +1653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   createdDust: 0
-  maxHealth: 1000
+  maxHealth: 100
   currentHealth: 0
   dead: 0
   stun: 0
@@ -1723,7 +1723,7 @@ PrefabInstance:
     - target: {fileID: 1704390732843510068, guid: 1cb8c4fca3b22524280fdae52a1adfb2, type: 3}
       propertyPath: entity
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7388813564871721423}
     - target: {fileID: 2199428800426505094, guid: 1cb8c4fca3b22524280fdae52a1adfb2, type: 3}
       propertyPath: m_Name
       value: DustParticles
@@ -2220,12 +2220,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7bb2cc88d80fd4ba6b0d4bdf80a8e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 3
   jumpForce: 0
   pointGroundCheck: {fileID: 4478794056746496708}
   pointWallCheck: {fileID: 6776340032615953349}
-  sizeBoxCheckGround: {x: 0, y: 0}
-  sizeBoxCheckWall: {x: 0, y: 0}
+  sizeBoxCheckGround: {x: 0.9, y: 0.5}
+  sizeBoxCheckWall: {x: 4.5, y: 1.3}
   directionMove: 1
   pointChangeDirCheck: {fileID: 7157645134012339246}
 --- !u!4 &6490232849346970713
@@ -7230,6 +7230,7 @@ MonoBehaviour:
   radiusHit: 0.72
   distanceDetect: 3.5
   attacking: 0
+  canTakeDmg: 0
 --- !u!1 &8155635203554232305
 GameObject:
   m_ObjectHideFlags: 0

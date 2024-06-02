@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -14,13 +15,14 @@ public class PinkStarAttack : EnemyAttack
     [SerializeField] protected float radiusHit;
     [SerializeField] protected float distanceDetect;
     [HideInInspector] public bool attacking;  // attacking == true => Run attack move;
-
+    [HideInInspector] public bool canTakeDmg;
     private Vector2 rollPoint;
     private void Start()
     {
         pinkStar = GetComponentInParent<PinkStar>();
         timer = coolDown;
         attackPoint = transform.parent;
+        canTakeDmg = true;
     }
     private void Update()
     {
@@ -34,7 +36,10 @@ public class PinkStarAttack : EnemyAttack
         {
             HitPlayer();
             transform.parent.Translate(rollPoint * Time.deltaTime * 2f);
-
+            if (pinkStar.movement.WallCheck())
+            {
+                EndAttackEvent();
+            }
         }
     }
     private void Attack()
@@ -52,13 +57,14 @@ public class PinkStarAttack : EnemyAttack
             rollPoint = new Vector2(attackPoint.position.x + distanceDetect * 2, attackPoint.position.y);
         else
             rollPoint = new Vector2(attackPoint.position.x - distanceDetect * 2, attackPoint.position.y);
-        Debug.Log("Attack Event");
         attacking = true;
     }
     public void EndAttackEvent()
     {
+        canTakeDmg = true;
         attacking = false;
         rollPoint = Vector2.zero;
+        pinkStar.movement.directionMove *= -1;
     }
     public bool DetectPlayer()
     {
@@ -77,7 +83,7 @@ public class PinkStarAttack : EnemyAttack
 
     public void HitPlayer()
     {
-        Collider2D[] cols = Physics2D.OverlapCircleAll(attackPoint.position, radiusHit);
+        Collider2D[] cols = Physics2D.OverlapCircleAll(transform.parent.position, radiusHit);
         foreach (Collider2D col in cols)
         {
             if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
@@ -85,16 +91,19 @@ public class PinkStarAttack : EnemyAttack
                 PlayerManager player = col.gameObject.GetComponent<PlayerManager>();
 
                 //Do some thing
-                Debug.Log("Hit Player");
-                player.TakeDamage(damage);
+                if (canTakeDmg)
+                {
+                    player.TakeDamage(damage);
+                    canTakeDmg = false;
+                }
+
             }
         }
     }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(attackPoint.position, radiusHit);
-        Gizmos.DrawWireSphere(attackPoint.position, distanceDetect);
+        Gizmos.DrawWireSphere(transform.parent.position, radiusHit);
 
         //Gizmos.DrawWireSphere(airAttackPoint.transform.position, airRadius);
     }
