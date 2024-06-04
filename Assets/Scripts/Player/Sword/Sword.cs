@@ -56,6 +56,12 @@ public class Sword : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.tag == "Bullet")
+        {
+            PlayerPickSword();
+        }
+    }
     private void SetTriggerForSword()
     {
         RaycastHit2D[] raycastHit2Ds = Physics2D.RaycastAll(transform.position, Vector2.right * direction, 1);
