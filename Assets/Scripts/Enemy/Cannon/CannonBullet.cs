@@ -12,7 +12,6 @@ public class CannonBullet : EnemyBullet
     public void BulletMove(float force,float direction)
     {
         rb.velocity = new Vector2(direction*force,rb.velocity.y);
-        Debug.Log("BulletMove");
     }
     protected override void OnTriggerEnter2D(Collider2D other) {
         if(LayerMask.LayerToName(other.gameObject.layer) == "Enemy") return;

@@ -10,10 +10,10 @@ public class CannonAttack : EnemyAttack
     [SerializeField] protected GameObject checkPlayerPoint;
     [SerializeField] protected float radius;
     [SerializeField] protected GameObject cannonBall;
-    private void Start() {
+    protected void Start() {
         cannon = GetComponentInParent<Cannon>();
     }
-    private void Update()
+    protected void Update()
     {
         if (!cannon.CanMove()) return;
         if (CanAttack())
@@ -21,7 +21,7 @@ public class CannonAttack : EnemyAttack
             Attack();
         }
     }
-    private void Attack()
+    protected void Attack()
     {
         if (DetectPlayer())
         {
@@ -29,7 +29,7 @@ public class CannonAttack : EnemyAttack
             cannon.visual.animator.SetTrigger("AttackTrigger");
         }
     }
-    public bool DetectPlayer()
+    public virtual bool DetectPlayer()
     {
 
         Collider2D[] cols = Physics2D.OverlapCircleAll(checkPlayerPoint.transform.position, radius);
@@ -49,12 +49,11 @@ public class CannonAttack : EnemyAttack
         CannonBullet cannonBullet = bullet.GetComponent<CannonBullet>();
         if (cannonBullet != null)
         {
-            Debug.Log("===");
             cannonBullet.SetDamge(damage);
             cannonBullet.BulletMove(firingForce,-1*transform.parent.lossyScale.x);
         }
     }
-    private void OnDrawGizmos()
+    protected virtual void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(checkPlayerPoint.transform.position, radius);
