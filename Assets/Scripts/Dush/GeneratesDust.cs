@@ -7,9 +7,9 @@ public class GeneratesDust : MonoBehaviour
 {
     [SerializeField] private EntityMovement entityMovement;
     [SerializeField] private EntityManager entityManager;
-    [SerializeField] private GameObject dustObj;
+    [SerializeField] private Dust dustObj;
     [SerializeField] private Transform point;
-    [SerializeField] private GameObject newDust;
+    [SerializeField] private Dust newDust;
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class GeneratesDust : MonoBehaviour
     }
     private bool DustRun()
     {
-        if(entityManager is PlayerManager)
+        if (entityManager is PlayerManager)
         {
             if (InputManager.Instance.Horizontal != 0)
             {
@@ -46,7 +46,7 @@ public class GeneratesDust : MonoBehaviour
             }
             return false;
         }
-        else if(entityManager is Enemy) 
+        else if (entityManager is Enemy)
         {
             if (entityManager.rb.velocity.x != 0)
             {
@@ -65,14 +65,15 @@ public class GeneratesDust : MonoBehaviour
     private void HandlingDustRun()
     {
         entityManager.createdDust = true;
-        newDust = Instantiate(dustObj, point.position, Quaternion.identity);
-        newDust.SetActive(true);
+        newDust = ObjectPoolingDust.Instant.GetObjectType(dustObj);
+        newDust.transform.position = point.position;
+        newDust.gameObject.SetActive(true);
         newDust.transform.localScale = entityManager.transform.localScale;
         newDust.GetComponent<Animator>().Play("Run");
     }
     private bool DustJump()
     {
-        if(entityManager is PlayerManager)
+        if (entityManager is PlayerManager)
         {
             if (InputManager.Instance.Jump)
             {
@@ -80,8 +81,9 @@ public class GeneratesDust : MonoBehaviour
                 if (!entityManager.createdDust)
                 {
                     entityManager.createdDust = true;
-                    newDust = Instantiate(dustObj, point.position, Quaternion.identity);
-                    newDust.SetActive(true);
+                    newDust = ObjectPoolingDust.Instant.GetObjectType(dustObj);
+                    newDust.transform.position = point.position;
+                    newDust.gameObject.SetActive(true);
                     newDust.transform.localScale = entityManager.transform.localScale;
                     newDust.GetComponent<Animator>().Play("Jump");
                     return true;
@@ -102,8 +104,9 @@ public class GeneratesDust : MonoBehaviour
                 if (!entityManager.createdDust)
                 {
                     PlayerManager.Instance.createdDust = true;
-                    newDust = Instantiate(dustObj, point.position, Quaternion.identity);
-                    newDust.SetActive(true);
+                    newDust = ObjectPoolingDust.Instant.GetObjectType(dustObj);
+                    newDust.transform.position = point.position;
+                    newDust.gameObject.SetActive(true);
                     newDust.transform.localScale = PlayerManager.Instance.transform.localScale;
                     newDust.GetComponent<Animator>().Play("Fall");
 
@@ -115,23 +118,11 @@ public class GeneratesDust : MonoBehaviour
             yield return null;
         }
     }
-    //private bool DustFall()
-    //{
-    //    if (!PlayerManager.Instance.createdDust)
-    //    {
-    //        PlayerManager.Instance.createdDust = true;
-    //        newDust = Instantiate(dustObj, point.position, Quaternion.identity);
-    //        newDust.SetActive(false);
-    //        Invoke(nameof(ActiveDustFall), 0.1f);
-    //        return true;
-    //    }
-    //    return false;
-    //}
     public void ActiveDustFall()
     {
         if (newDust != null)
         {
-            newDust.SetActive(true);
+            newDust.gameObject.SetActive(true);
             newDust.transform.position = point.position;
             newDust.transform.localScale = entityManager.transform.localScale;
             newDust.GetComponent<Animator>().Play("Fall");
@@ -139,7 +130,7 @@ public class GeneratesDust : MonoBehaviour
     }
     private void ResetDust()
     {
-        Destroy(newDust);
+        newDust.gameObject.SetActive(false);
         entityManager.createdDust = false;
     }
 }

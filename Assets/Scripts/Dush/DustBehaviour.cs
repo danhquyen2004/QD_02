@@ -12,6 +12,7 @@ public class Dust : MonoBehaviour
     public void DestroyDush()
     {
         entity.createdDust = false;
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        //Destroy(gameObject);
     }
 }
